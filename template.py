@@ -7,6 +7,7 @@ import numpy as npl
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
 from sklearn.model_selection import RandomizedSearchCV
 from scipy.stats import randint
 from sklearn.tree import export_text
@@ -14,6 +15,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn.metrics import accuracy_score # 정확도 계산
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
+from sklearn.datasets import fetch_california_housing
 from sklearn.metrics import precision_score, recall_score
 
 # Load the csv file at the given path into the pandas DataFrame and return the DataFrame
@@ -75,6 +77,21 @@ def random_forest_train_test(x_train, x_test, y_train, y_test):
 	#print(confusion_matrix(y_test, pipe.predict(x_test)))
 	return (acc, prec, rec)
 
+# Using the given train dataset, train the pipeline consists of a standard scaler and SVM
+# You can implement with default arguments
+# After the training, evaluate the performances of the model using the given test dataset
+# Return three performance metrics (accuracy, precision, recall) in order
+def svm_train_test(x_train, x_test, y_train, y_test):
+	#dt_cls = RandomForestClassifier()
+	#dt_cls.fit(x_train, y_train) # 훈련 진행
+	pipe = make_pipeline(StandardScaler(), SVC())
+	pipe.fit(x_train, y_train)
+	acc = accuracy_score(pipe.predict(x_test), y_test) 
+	prec = precision_score(pipe.predict(x_test), y_test) 
+	rec = recall_score(pipe.predict(x_test), y_test)
+	#print(confusion_matrix(y_test, pipe.predict(x_test)))
+	return (acc, prec, rec)
+
 def print_performances(acc, prec, recall):
 	#Do not modify this function!
 	print ("Accuracy: ", acc)
@@ -100,6 +117,10 @@ if __name__ == '__main__':
 
 	acc, prec, recall = random_forest_train_test(x_train, x_test, y_train, y_test)
 	print ("\nRandom Forest Performances")
+	print_performances(acc, prec, recall)
+
+	acc, prec, recall = svm_train_test(x_train, x_test, y_train, y_test)
+	print ("\nSVM Performances")
 	print_performances(acc, prec, recall)
 
 	
