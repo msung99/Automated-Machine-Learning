@@ -3,7 +3,8 @@
 
 import sys
 import pandas as pd
-import numpy as np
+import numpy as npl
+from sklearn.model_selection import train_test_split
 
 # Load the csv file at the given path into the pandas DataFrame and return the DataFrame
 def load_dataset(dataset_path):
@@ -24,7 +25,11 @@ def dataset_stat(dataset_df):
 
 # Splitting the given DataFrame and return train data, test data, train label, and test label in order
 # You must split the data using the given test size
-#def split_dataset(dataset_df, testset_size):
+def split_dataset(dataset_df, testset_size):
+	X = dataset_df.drop(columns = "target", axis = 1)
+	y = dataset_df["target"]
+	X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size = testset_size)
+	return (X_train, X_test, Y_train, Y_test)
 
 
 if __name__ == '__main__':
@@ -35,3 +40,6 @@ if __name__ == '__main__':
 	print ("Number of features: ", n_feats)
 	print ("Number of class 0 data entries: ", n_class0)
 	print ("Number of class 1 data entries: ", n_class1)
+	
+	print ("\nSplitting the dataset with the test size of ", float(sys.argv[2]))
+	x_train, x_test, y_train, y_test = split_dataset(data_df, float(sys.argv[2]))
