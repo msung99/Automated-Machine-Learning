@@ -15,12 +15,16 @@ def load_dataset(dataset_path):
 def dataset_stat(dataset_df):
 	freq_zero = 0
 	freq_one = 0
-	for data in data_df.target.values.tolist():
+	for data in dataset_df.target.values.tolist():
 		if(data == 0):
 			freq_zero += 1
 		elif(data == 1):
 			freq_one += 1
-	return (data_df.shape[1] -1 , freq_zero, freq_one)
+	return (dataset_df.shape[1] -1 , freq_zero, freq_one)
+
+# Splitting the given DataFrame and return train data, test data, train label, and test label in order
+# You must split the data using the given test size
+#def split_dataset(dataset_df, testset_size):
 
 
 if __name__ == '__main__':
